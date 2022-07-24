@@ -1,0 +1,30 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: errorscg
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: com.bullet.errorreporting.kafka.ErrorEvent
+  data:
+    cassandra:
+      keyspace-name: errorreporting
+      port: 9042
+      contact-points: 127.0.0.1
+      local-datacenter: datacenter1
+      username: cassandra
+      password: cassandra
+
+kafka:
+  topic: errors
