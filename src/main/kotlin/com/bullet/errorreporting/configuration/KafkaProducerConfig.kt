@@ -9,9 +9,9 @@ import reactor.kafka.sender.SenderOptions
 
 
 @Configuration
-class KafkaProducerConfig {
+open class KafkaProducerConfig {
     @Bean
-    fun reactiveKafkaProducerTemplate(
+    open fun reactiveKafkaProducerTemplate(
         properties: KafkaProperties
     ): ReactiveKafkaProducerTemplate<String, ErrorEvent> {
         val props = properties.buildProducerProperties()

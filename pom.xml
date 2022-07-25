@@ -17,8 +17,6 @@
 		<java.version>17</java.version>
 		<kotlin.version>1.6.21</kotlin.version>
 		<vavr.version>0.10.4</vavr.version>
-		<spring-jdbc.version>5.3.20</spring-jdbc.version>
-		<hikaricp.version>5.0.1</hikaricp.version>
 		<apache.commons.validator.version>1.7</apache.commons.validator.version>
 	</properties>
 	<dependencies>

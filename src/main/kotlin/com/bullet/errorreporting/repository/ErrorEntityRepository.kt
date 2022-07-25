@@ -7,5 +7,5 @@ import reactor.core.publisher.Flux
 import java.time.LocalDateTime
 
 interface ErrorEntityRepository : ReactiveCassandraRepository<ErrorEntity, ErrorEntityPrimaryKey> {
-    fun findByKeyUserAndKeyErrorDateTimeAfter(user: String, errorDateTime: LocalDateTime) : Flux<ErrorEntity>
+    fun findByKeyErrorDateTimeAfterAndKeyUser(errorDateTime: LocalDateTime, user: String) : Flux<ErrorEntity>
 }

@@ -11,30 +11,24 @@ import org.springframework.data.cassandra.core.cql.session.init.ResourceKeyspace
 
 
 @Configuration
-class CreateKeyspaceConfiguration(@Value(value = "\${spring.data.cassandra.keyspace-name}") private val keyspace: String) : AbstractCassandraConfiguration(), BeanClassLoaderAware {
-    override fun getKeyspaceName(): String {
-        return keyspace
-    }
+open class CreateKeyspaceConfiguration(@Value(value = "\${spring.data.cassandra.keyspace-name}") private val keyspace: String) : AbstractCassandraConfiguration(), BeanClassLoaderAware {
 
-    override fun getKeyspaceCreations(): List<CreateKeyspaceSpecification> {
-        val specification = CreateKeyspaceSpecification
+    override fun getKeyspaceName(): String = keyspace
+
+    override fun getKeyspaceCreations(): List<CreateKeyspaceSpecification> = CreateKeyspaceSpecification
             .createKeyspace(keyspace)
             .ifNotExists()
             .with(KeyspaceOption.DURABLE_WRITES, true)
-        return listOf(specification)
-    }
+            .let { listOf(it) }
 
-    override fun keyspacePopulator(): KeyspacePopulator? {
-        return ResourceKeyspacePopulator(scriptOf("""
-            CREATE TABLE IF NOT EXISTS $keyspace.errors (
-              id UUID,
-              user VARCHAR,
-              application VARCHAR,
-              description VARCHAR,
-              error_datetime TIMESTAMP,
-              PRIMARY KEY ((application), error_datetime, id, user)
-            )
-            WITH CLUSTERING ORDER BY (error_datetime DESC, id DESC, user DESC);
-        """.trimIndent()))
-    }
+    override fun keyspacePopulator(): KeyspacePopulator = ResourceKeyspacePopulator(scriptOf("""
+        CREATE TABLE IF NOT EXISTS $keyspace.errors (
+          id UUID,
+          user VARCHAR,
+          application VARCHAR,
+          description VARCHAR,
+          error_datetime TIMESTAMP,
+          PRIMARY KEY ((user), error_datetime, id, application)
+        );
+    """.trimIndent()))
 }
