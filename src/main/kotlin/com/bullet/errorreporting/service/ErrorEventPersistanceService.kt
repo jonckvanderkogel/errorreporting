@@ -16,7 +16,7 @@ class ErrorEventPersistanceService (
         handleErrorEvents().subscribe();
     }
 
-    fun handleErrorEvents(): Flux<ErrorEntity> = errorEventFlux
+    final fun handleErrorEvents(): Flux<ErrorEntity> = errorEventFlux
         .flatMap { persistErrorEvent(it) }
 
     private fun persistErrorEvent(errorEvent: ErrorEvent) = errorEntityRepository.save(

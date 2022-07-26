@@ -20,7 +20,7 @@ import javax.validation.Validator
 open class KafkaConsumerConfig {
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
-        private val VALIDATOR = Validation.buildDefaultValidatorFactory().validator
+        private val validator = Validation.buildDefaultValidatorFactory().validator
     }
 
     @Bean
@@ -45,7 +45,7 @@ open class KafkaConsumerConfig {
         .receive()
         .share()
         .map { it.value() }
-        .flatMap { VALIDATOR validates it }
+        .flatMap { validator validates it }
         .onErrorContinue { t, o ->
             logger.error("Error in payment stream.", t);
             logger.error("Error happened on object: {}", o);

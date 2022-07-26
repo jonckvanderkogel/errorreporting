@@ -15,8 +15,8 @@ class ErrorEventSimulation(
     @Autowired private val messageProducerService: MessageProducerService
 ) {
     companion object {
-        private val RANDOM: SplittableRandom = SplittableRandom()
-        private val FAKER: Faker = Faker()
+        private val random: SplittableRandom = SplittableRandom()
+        private val faker: Faker = Faker()
     }
 
     @PostConstruct
@@ -34,9 +34,9 @@ class ErrorEventSimulation(
         return Flux.interval(Duration.ofSeconds(5))
             .map {
                 ErrorEvent(
-                    "Application${RANDOM.nextInt(1, 10)}",
-                    "User${RANDOM.nextInt(1, 10)}",
-                    FAKER.dune().quote().take(1000)
+                    "Application${random.nextInt(1, 10)}",
+                    "User${random.nextInt(1, 10)}",
+                    faker.dune().quote().take(1000)
                 )
             }
     }
